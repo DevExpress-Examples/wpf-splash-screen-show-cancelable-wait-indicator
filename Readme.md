@@ -93,7 +93,7 @@ public void Start() {
 }
 ```
 
-In the **InitSplashScreenViewModel** we define the corresponding **Title**, **SubTitle**, **Progress** and other settings. Additionally, we set the **Tag** property in this Splash Screen's view model to a [DelegateCommand](https://docs.devexpress.com/WPF/17353/mvvm-framework/commands/delegate-commands) that will call the **CancelOperation** method from the main view model:
+In the **InitSplashScreenViewModel** we define the corresponding **Title**, **SubTitle**, **Progress** and other settings. Additionally, we set the **Tag** property in this Splash Screen's view model to [DelegateCommand](https://docs.devexpress.com/WPF/17353/mvvm-framework/commands/delegate-commands) that will call the **CancelOperation** method from the main view model:
 
 ```cs
 void InitSplashScreenViewModel(DXSplashScreenViewModel vm) {
@@ -126,7 +126,7 @@ With this approach, we can use this **Tag** property at the level of the Splash 
 ...
 ```
 
-To update the Splash Screen during the complex operation, we set the **Progress** and **State** properties in the **SplashScreenManagerService.ViewModel** object to the required values. To do this in the main thread, we use DispatcherService's **Invoke** method:
+To update the Splash Screen during a complex operation, we set the **Progress** and **State** properties in the **SplashScreenManagerService.ViewModel** object to the required values. To do this in the main thread, we use DispatcherService's **Invoke** method:
 
 ```cs
 void UpdateSplashScreenContent(int progressValue) {
@@ -138,6 +138,3 @@ void UpdateSplashScreenContent(int progressValue) {
     });
 }
 ```
-
-
-
