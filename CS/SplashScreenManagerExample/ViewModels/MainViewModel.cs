@@ -65,7 +65,7 @@ namespace SplashScreenManagerExample.ViewModels {
 
         void InitSplashScreenViewModel(DXSplashScreenViewModel vm) {
             vm.Title = "SOME BACKGROUND WORK";
-            vm.SubTitle = "This can take some time";
+            vm.Subtitle = "This can take some time";
             vm.Logo = new Uri("pack://application:,,,/logo.png");
             vm.IsIndeterminate = false;
             vm.Tag = new DelegateCommand(CancelOperation, CanCancelOperation);

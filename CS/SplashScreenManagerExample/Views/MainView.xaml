@@ -12,11 +12,11 @@
              d:DesignWidth="300">
 
     <dxmvvm:Interaction.Behaviors>
-        <dx:SplashScreenManagerService OwnerLockMode="WindowInputOnly"
+        <dx:SplashScreenManagerService InputBlock="WindowContent"
                                        StartupLocation="CenterOwner">
             <dx:SplashScreenManagerService.ViewTemplate>
                 <DataTemplate>
-                    <Views:SplashScreenTemplate />
+                    <Views:SplashScreenView />
                 </DataTemplate>
             </dx:SplashScreenManagerService.ViewTemplate>
             <dx:SplashScreenManagerService.SplashScreenWindowStyle>
@@ -27,6 +27,7 @@
                 </Style>
             </dx:SplashScreenManagerService.SplashScreenWindowStyle>
         </dx:SplashScreenManagerService>
+        <dxmvvm:DispatcherService/>
     </dxmvvm:Interaction.Behaviors>
 
     <UserControl.DataContext>
