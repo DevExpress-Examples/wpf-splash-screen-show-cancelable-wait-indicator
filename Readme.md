@@ -33,7 +33,7 @@ We also add [DispatcherService](https://docs.devexpress.com/WPF/113861/mvvm-fram
 
 The main view model is a [ViewModelBase](https://docs.devexpress.com/WPF/17351/mvvm-framework/viewmodels/viewmodelbase) class descendant. We need to use the approach from the [Services in ViewModelBase descendants](https://docs.devexpress.com/WPF/17446/mvvm-framework/services/services-in-viewmodelbase-descendants) article to get access to the services that we added to our main view:
 
-```
+```cs
 public ISplashScreenManagerService SplashScreenManagerService
 {
     get { return this.GetService<ISplashScreenManagerService>(); }
