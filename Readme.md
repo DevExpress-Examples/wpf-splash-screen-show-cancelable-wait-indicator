@@ -75,8 +75,9 @@ private void Worker_DoWork(object sender, DoWorkEventArgs e) {
     }
     this.DispatcherService.Invoke(() => {
         this.SplashScreenManagerService.Close();
+        worker.DoWork -= Worker_DoWork;
+        worker = null;
     });
-    worker = null;
 }
 ```
 
@@ -86,6 +87,7 @@ When an end user clicks the "Start a complex operation" button, we initialize pr
 [Command(CanExecuteMethodName = "CanStart")]
 public void Start() {
     if(this.SplashScreenManagerService != null) {
+        this.SplashScreenManagerService.ViewModel = new DXSplashScreenViewModel();
         this.InitSplashScreenViewModel(this.SplashScreenManagerService.ViewModel);
         this.SplashScreenManagerService.Show();
         this.RunBackgroundWorker();
