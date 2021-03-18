@@ -24,6 +24,7 @@ namespace SplashScreenManagerExample.ViewModels {
         [Command(CanExecuteMethodName = "CanStart")]
         public void Start() {
             if(this.SplashScreenManagerService != null) {
+                this.SplashScreenManagerService.ViewModel = new DXSplashScreenViewModel();
                 this.InitSplashScreenViewModel(this.SplashScreenManagerService.ViewModel);
                 this.SplashScreenManagerService.Show();
                 this.RunBackgroundWorker();
@@ -49,8 +50,9 @@ namespace SplashScreenManagerExample.ViewModels {
             }
             this.DispatcherService.Invoke(() => {
                 this.SplashScreenManagerService.Close();
+                worker.DoWork -= Worker_DoWork;
+                worker = null;
             });
-            worker = null;
         }
 
         void UpdateSplashScreenContent(int progressValue) {
