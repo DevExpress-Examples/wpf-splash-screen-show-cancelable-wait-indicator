@@ -1,4 +1,4 @@
-# How to show a cancelablew wait indicator (Splash Screen) and update its content during a complex background operation
+# How to show a cancelable wait indicator (Splash Screen) and update its content during a complex background operation
 
 Starting with v20.1, we provide **SplashScreenManager** with flexible options to design a custom Splash Screen view and update its content. Use **SplashScreenManagerService** to operate with this manager in an MVVM way. For more information about Services, refer to the [Services](https://docs.devexpress.com/WPF/17414/mvvm-framework/services) help topic.
 
