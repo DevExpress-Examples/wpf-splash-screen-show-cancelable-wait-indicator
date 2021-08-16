@@ -38,7 +38,7 @@
                        HorizontalAlignment="Center"
                        FontSize="15"
                        Opacity="0.75"
-                       Text="{Binding SubTitle}" />
+                       Text="{Binding Subtitle}" />
         </StackPanel>
         <ProgressBar Grid.Row="2"
                      Width="350"
