@@ -38,7 +38,7 @@ Add the [SplashScreenManagerService](https://docs.devexpress.com/WPF/DevExpress.
 
 When the Splash Screen is shown, this SplashScreenView's DataContext contains an instance of the **DXSplashScreenViewModel** (or its descendant) class. You can bind visual elements of the **SplashScreenView** to the `Logo`, `Title`, `Progress`, and `Status` properties from this class. When you change these settings in the **SplashScreenManagerService.ViewModel** object, **SplashScreenView**'s elements reflect these changes.
 
-The [DispatcherService](https://docs.devexpress.com/WPF/113861/mvvm-framework/services/predefined-set/dispatcherservice) allows you to update the Splash Screen's view model properties in the main thread. The executed complex operation does not allow you to update the view model that is created in the main thread.
+The executed complex operation does not allow you to update the view model that is created in the main thread. To avoid this, create a [DispatcherService](https://docs.devexpress.com/WPF/113861/mvvm-framework/services/predefined-set/dispatcherservice) that can update the Splash Screen's view model properties.
 
 The main view model is a [ViewModelBase](https://docs.devexpress.com/WPF/17351/mvvm-framework/viewmodels/viewmodelbase) class descendant. Use the approach from the [Services in ViewModelBase descendants](https://docs.devexpress.com/WPF/17446/mvvm-framework/services/services-in-viewmodelbase-descendants) article to get access to the view services:
 
