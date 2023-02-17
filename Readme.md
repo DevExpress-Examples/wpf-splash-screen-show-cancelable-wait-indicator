@@ -3,19 +3,23 @@
 [![](https://img.shields.io/badge/Open_in_DevExpress_Support_Center-FF7200?style=flat-square&logo=DevExpress&logoColor=white)](https://supportcenter.devexpress.com/ticket/details/T868679)
 [![](https://img.shields.io/badge/📖_How_to_use_DevExpress_Examples-e9f6fc?style=flat-square)](https://docs.devexpress.com/GeneralInformation/403183)
 <!-- default badges end -->
-# How to show a cancelable wait indicator (Splash Screen) and update its content during a complex background operation
+# WPF Splash Screen - Show a Cancelable Wait Indicator
 
-Starting with v20.1, we provide **SplashScreenManager** with flexible options to design a custom Splash Screen view and update its content. Use **SplashScreenManagerService** to operate with this manager in an MVVM way. For more information about Services, refer to the [Services](https://docs.devexpress.com/WPF/17414/mvvm-framework/services) help topic.
+This example illustrates how to start a complex operation in a background thread and display its progress and status (Loading, Finishing, etc.) in the [Splash Screen](https://docs.devexpress.com/WPF/401685/controls-and-libraries/windows-and-utility-controls/splash-screen-manager). This Splash Screen also contains the **Close** button that allows end users to cancel the operation and close the Splash Screen.
 
-This example illustrates how to start a complex operation in a background thread and display its progress and status (Loading, Finishing, etc.) in the Splash Screen. This Splash Screen also contains the **Close** button that allows end users to cancel the operation and close the Splash Screen.
+![image](https://user-images.githubusercontent.com/65009440/219656170-9f820806-65e6-43c0-8bab-d357b1593e99.png)
 
-We add **SplashScreenManagerService** to MainView and use a custom UserControl - **SplashScreenView** - with the required Splash Screen UI in this service's **ViewTemplate**: 
+Use [SplashScreenManagerService](https://docs.devexpress.com/WPF/401692/mvvm-framework/services/predefined-set/splashscreenmanagerservice) to operate with this manager in an MVVM way.
+
+## Implementation Details
+
+Add the [SplashScreenManagerService](https://docs.devexpress.com/WPF/DevExpress.Xpf.Core.SplashScreenManagerService) to the MainView. Specify the required Splash Screen UI in the **SplashScreenView** and assign this view to the service's [ViewTemplate](https://docs.devexpress.com/WPF/DevExpress.Mvvm.UI.ViewServiceBase.ViewTemplate): 
 
 ```xaml
 <dxmvvm:Interaction.Behaviors>
     <dxmvvm:DispatcherService/>
     <dx:SplashScreenManagerService OwnerLockMode="WindowInputOnly"
-                                    StartupLocation="CenterOwner">
+                                   StartupLocation="CenterOwner">
         <dx:SplashScreenManagerService.ViewTemplate>
             <DataTemplate>
                 <Views:SplashScreenView />
@@ -32,31 +36,28 @@ We add **SplashScreenManagerService** to MainView and use a custom UserControl -
 </dxmvvm:Interaction.Behaviors>
 ```
 
-When the Splash Screen is shown, this SplashScreenView's DataContext will contain an instance of the **DXSplashScreenViewModel** (or its descendant) class. That is why we can bind visual elements of this view to the Logo, Title, Progress, Status, etc., properties from this class. When we change these settings in the **SplashScreenManagerService.ViewModel** object at the view model level, **SplashScreenView**'s elements will reflect these changes.
+When the Splash Screen is shown, this SplashScreenView's DataContext contains an instance of the **DXSplashScreenViewModel** (or its descendant) class. You can bind visual elements of the **SplashScreenView** to the `Logo`, `Title`, `Progress`, and `Status` properties from this class. When you change these settings in the **SplashScreenManagerService.ViewModel** object, **SplashScreenView**'s elements reflect these changes.
 
-We also add [DispatcherService](https://docs.devexpress.com/WPF/113861/mvvm-framework/services/predefined-set/dispatcherservice) to MainView so that we can update properties in the Splash Screen's view model in the main thread. This is required because we will execute a complex operation in a separate thread, which does not allow us to update the view model that is created in the main thread.
+The [DispatcherService](https://docs.devexpress.com/WPF/113861/mvvm-framework/services/predefined-set/dispatcherservice) allows you to update the Splash Screen's view model properties in the main thread. The executed complex operation does not allow you to update the view model that is created in the main thread.
 
-The main view model is a [ViewModelBase](https://docs.devexpress.com/WPF/17351/mvvm-framework/viewmodels/viewmodelbase) class descendant. We need to use the approach from the [Services in ViewModelBase descendants](https://docs.devexpress.com/WPF/17446/mvvm-framework/services/services-in-viewmodelbase-descendants) article to get access to the services that we added to our main view:
+The main view model is a [ViewModelBase](https://docs.devexpress.com/WPF/17351/mvvm-framework/viewmodels/viewmodelbase) class descendant. Use the approach from the [Services in ViewModelBase descendants](https://docs.devexpress.com/WPF/17446/mvvm-framework/services/services-in-viewmodelbase-descendants) article to get access to the view services:
 
 ```cs
-public ISplashScreenManagerService SplashScreenManagerService
-{
+public ISplashScreenManagerService SplashScreenManagerService {
     get { return this.GetService<ISplashScreenManagerService>(); }
 }
 
-public IDispatcherService DispatcherService
-{
+public IDispatcherService DispatcherService {
     get { return this.GetService<IDispatcherService>(); }
 }
-
 ```
 
 > **NOTE**  
-> Refer to these links if you use other view model types:  
-> [Services in POCO objects](https://docs.devexpress.com/WPF/17447/mvvm-framework/services/services-in-poco-objects)  
-> [Services in custom ViewModels](https://docs.devexpress.com/WPF/17450/mvvm-framework/services/services-in-custom-viewmodels)  
+> Refer to the following help topics if you use other view model types:  
+> [Services in Generated View Models](https://docs.devexpress.com/WPF/17447/mvvm-framework/services/services-in-generated-view-models)  
+> [Services in Custom ViewModels](https://docs.devexpress.com/WPF/17450/mvvm-framework/services/services-in-custom-viewmodels)  
 
-We execute a complex operation in a background thread with the help of the [BackgroundWorker](https://docs.microsoft.com/en-us/dotnet/api/system.componentmodel.backgroundworker?view=netframework-4.8) class. We enable its **WorkerSupportsCancellation** option so that we can cancel its execution when necessary: 
+The [BackgroundWorker](https://docs.microsoft.com/en-us/dotnet/api/system.componentmodel.backgroundworker) class allows you to execute a complex operation in a background thread. Set the `WorkerSupportsCancellation` property to `true` to cancel the operation on demand: 
 
 ```cs
 BackgroundWorker worker;
@@ -86,7 +87,7 @@ private void Worker_DoWork(object sender, DoWorkEventArgs e) {
 }
 ```
 
-When an end user clicks the "Start a complex operation" button, we initialize properties in **SplashScreenManagerService.ViewModel** and show the Splash Screen:
+When a user clicks the "Start a complex operation" button, initialize properties in the **SplashScreenManagerService.ViewModel** and show the Splash Screen:
 
 ```cs
 [Command(CanExecuteMethodName = "CanStart")]
@@ -100,7 +101,7 @@ public void Start() {
 }
 ```
 
-In the **InitSplashScreenViewModel** we define the corresponding **Title**, **SubTitle**, **Progress** and other settings. Additionally, we set the **Tag** property in this Splash Screen's view model to [DelegateCommand](https://docs.devexpress.com/WPF/17353/mvvm-framework/commands/delegate-commands) that will call the **CancelOperation** method from the main view model:
+In the **InitSplashScreenViewModel** define the **Title**, **SubTitle**, **Progress** and other settings. Set the **Tag** property in the Splash Screen's view model to [DelegateCommand](https://docs.devexpress.com/WPF/17353/mvvm-framework/commands/delegate-commands) that calls the **CancelOperation** method from the main view model:
 
 ```cs
 void InitSplashScreenViewModel(DXSplashScreenViewModel vm) {
@@ -119,8 +120,7 @@ public void CancelOperation() {
 }
 ```
 
-With this approach, we can use this **Tag** property at the level of the Splash Screen's view to allow end users to cancel the background operation:
-
+In the Splash Screen's view, bind the close button's `Command` property to the View Model's **Tag** property:
 
 ```xaml
 ...
@@ -133,7 +133,7 @@ With this approach, we can use this **Tag** property at the level of the Splash 
 ...
 ```
 
-To update the Splash Screen during a complex operation, we set the **Progress** and **State** properties in the **SplashScreenManagerService.ViewModel** object to the required values. To do this in the main thread, we use DispatcherService's **Invoke** method:
+To update the Splash Screen during a complex operation, set the **Progress** and **State** properties in the **SplashScreenManagerService.ViewModel** object to the required values. To do this in the main thread, use the DispatcherService's **Invoke** method:
 
 ```cs
 void UpdateSplashScreenContent(int progressValue) {
