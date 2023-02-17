@@ -5,7 +5,7 @@
 <!-- default badges end -->
 # WPF Splash Screen - Show a Cancelable Wait Indicator
 
-This example illustrates how to start a complex operation in a background thread and display its progress and status (Loading, Finishing, etc.) in the [Splash Screen](https://docs.devexpress.com/WPF/401685/controls-and-libraries/windows-and-utility-controls/splash-screen-manager). This Splash Screen also contains the **Close** button that allows end users to cancel the operation and close the Splash Screen.
+This example illustrates how to start a complex operation in a background thread and display its progress and status (Loading, Finishing, etc.) in the [Splash Screen](https://docs.devexpress.com/WPF/401685/controls-and-libraries/windows-and-utility-controls/splash-screen-manager). This Splash Screen also contains the **Close** button that allows users to cancel the operation and close the Splash Screen.
 
 ![image](https://user-images.githubusercontent.com/65009440/219656170-9f820806-65e6-43c0-8bab-d357b1593e99.png)
 
@@ -54,8 +54,8 @@ public IDispatcherService DispatcherService {
 
 > **NOTE**  
 > Refer to the following help topics if you use other view model types:  
-> [Services in Generated View Models](https://docs.devexpress.com/WPF/17447/mvvm-framework/services/services-in-generated-view-models)  
-> [Services in Custom ViewModels](https://docs.devexpress.com/WPF/17450/mvvm-framework/services/services-in-custom-viewmodels)  
+> * [Services in Generated View Models](https://docs.devexpress.com/WPF/17447/mvvm-framework/services/services-in-generated-view-models)  
+> * [Services in Custom ViewModels](https://docs.devexpress.com/WPF/17450/mvvm-framework/services/services-in-custom-viewmodels)  
 
 The [BackgroundWorker](https://docs.microsoft.com/en-us/dotnet/api/system.componentmodel.backgroundworker) class allows you to execute a complex operation in a background thread. Set the `WorkerSupportsCancellation` property to `true` to cancel the operation on demand: 
 
@@ -101,7 +101,7 @@ public void Start() {
 }
 ```
 
-In the **InitSplashScreenViewModel** define the **Title**, **SubTitle**, **Progress** and other settings. Set the **Tag** property in the Splash Screen's view model to [DelegateCommand](https://docs.devexpress.com/WPF/17353/mvvm-framework/commands/delegate-commands) that calls the **CancelOperation** method from the main view model:
+In the **InitSplashScreenViewModel** define the **Title**, **SubTitle**, **Progress**, and other settings. Set the **Tag** property in the Splash Screen's view model to [DelegateCommand](https://docs.devexpress.com/WPF/17353/mvvm-framework/commands/delegate-commands) that calls the **CancelOperation** method from the main view model:
 
 ```cs
 void InitSplashScreenViewModel(DXSplashScreenViewModel vm) {
