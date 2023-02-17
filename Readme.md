@@ -145,3 +145,19 @@ void UpdateSplashScreenContent(int progressValue) {
     });
 }
 ```
+
+## Files to Review
+
+* [MainView.xaml](./CS/SplashScreenManagerExample/Views/MainView.xaml) (VB: [MainView.xaml](./VB/SplashScreenManagerExample/Views/MainView.xaml))
+* [SplashScreenView.xaml](./CS/SplashScreenManagerExample/Views/SplashScreenView.xaml) (VB: [SplashScreenView.xaml](./VB/SplashScreenManagerExample/Views/SplashScreenView.xaml))
+* [MainViewModel.cs](./CS/SplashScreenManagerExample/ViewModels/MainViewModel.cs) ([MainViewModel.vb](/VB/SplashScreenManagerExample/ViewModels/MainViewModel.vb))
+
+## Documentation
+
+* [Splash Screen Manager](https://docs.devexpress.com/WPF/401685/controls-and-libraries/windows-and-utility-controls/splash-screen-manager)
+* [SplashScreenManagerService](https://docs.devexpress.com/WPF/401692/mvvm-framework/services/predefined-set/splashscreenmanagerservice)
+* [Services in ViewModelBase Descendants](https://docs.devexpress.com/WPF/17446/mvvm-framework/services/services-in-viewmodelbase-descendants)
+
+## More Examples
+
+* [Display the WPF WaitIndicator](https://github.com/DevExpress-Examples/wpf-display-wait-indicator)
